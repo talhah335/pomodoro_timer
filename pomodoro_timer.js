@@ -1,12 +1,60 @@
 // script.js
 let timer;
-let minutes = 15;
+let minutes = 25;
 let seconds = 0;
+let pomodoroDuration = 25;
+let shortBreak = 5;
+let longBreak = 15;
 let isPaused = false;
 let enteredTime = null;
 
 function startTimer() {
     timer = setInterval(updateTimer, 1000);
+}
+
+function setPomodoro() {
+    minutes = pomodoroDuration;
+    seconds = 0;
+    isPaused = false;
+    const timerElement =
+        document.getElementById('timer');
+    timerElement.textContent =
+        formatTime(minutes, seconds);
+    clearInterval(timer);
+    const pauseResumeButton =
+        document.querySelector('.control-buttons button');
+    pauseResumeButton.textContent = 'Pause';
+    startTimer();
+}
+
+function setShortBreak() {
+    minutes = shortBreak;
+    seconds = 0;
+    isPaused = false;
+    const timerElement =
+        document.getElementById('timer');
+    timerElement.textContent =
+        formatTime(minutes, seconds);
+    clearInterval(timer);
+    const pauseResumeButton =
+        document.querySelector('.control-buttons button');
+    pauseResumeButton.textContent = 'Pause';
+    startTimer();
+}
+
+function setLongBreak() {
+    minutes = longBreak;
+    seconds = 0;
+    isPaused = false;
+    const timerElement =
+        document.getElementById('timer');
+    timerElement.textContent =
+        formatTime(minutes, seconds);
+    clearInterval(timer);
+    const pauseResumeButton =
+        document.querySelector('.control-buttons button');
+    pauseResumeButton.textContent = 'Pause';
+    startTimer();
 }
 
 function updateTimer() {
@@ -29,8 +77,7 @@ function updateTimer() {
 }
 
 function formatTime(minutes, seconds) {
-    return 
-    `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 }
 
 function togglePauseResume() {
@@ -83,5 +130,4 @@ function chooseTime() {
               ' a valid number greater than 0.');
     }
 }
-
 startTimer();
