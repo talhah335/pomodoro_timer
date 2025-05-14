@@ -1,3 +1,4 @@
+/*
 let timer;
 let minutes = 25;
 let seconds = 0;
@@ -96,4 +97,132 @@ function chooseTime() {
     } else {
         alert('Invalid input. Please enter a valid number greater than 0.');
     }
+}
+*/
+
+let timer;
+let minutes = 25;
+let seconds = 0;
+let pomodoroDuration = 25;
+let shortBreak = 5;
+let longBreak = 15;
+let isPaused = false;
+let enteredTime = null;
+
+// New state variables for auto-switch
+let autoSwitch = true;
+let pomodoroCount = 0;
+let currentMode = "Pomodoro"; // can be "Pomodoro", "ShortBreak", "LongBreak", or "Custom"
+
+function startTimer() {
+    timer = setInterval(updateTimer, 1000);
+}
+
+function resetAndStart(duration) {
+    enteredTime = duration;
+    minutes = duration;
+    seconds = 0;
+    isPaused = false;
+    clearInterval(timer);
+
+    document.getElementById('timer').textContent = formatTime(minutes, seconds);
+    document.getElementById('start-button').textContent = 'Pause';
+    startTimer();
+}
+
+function setPomodoro() {
+    currentMode = "Pomodoro";
+    resetAndStart(pomodoroDuration);
+}
+
+function setShortBreak() {
+    currentMode = "ShortBreak";
+    resetAndStart(shortBreak);
+}
+
+function setLongBreak() {
+    currentMode = "LongBreak";
+    resetAndStart(longBreak);
+}
+
+function updateTimer() {
+    const timerElement = document.getElementById('timer');
+    timerElement.textContent = formatTime(minutes, seconds);
+
+    if (minutes === 0 && seconds === 0) {
+        clearInterval(timer);
+
+        if (autoSwitch) {
+            if (currentMode === "Pomodoro") {
+                pomodoroCount++;
+                if (pomodoroCount % 4 === 0) {
+                    setLongBreak();
+                } else {
+                    setShortBreak();
+                }
+            } else {
+                setPomodoro();
+            }
+        } else {
+            alert('Time is up! Take a break.');
+        }
+    } else if (!isPaused) {
+        if (seconds > 0) {
+            seconds--;
+        } else {
+            seconds = 59;
+            minutes--;
+        }
+    }
+}
+
+function formatTime(minutes, seconds) {
+    return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+}
+
+function togglePauseResume() {
+    const pauseResumeButton = document.getElementById('start-button');
+
+    if (!timer || pauseResumeButton.textContent === 'Start' || pauseResumeButton.textContent === 'Resume') {
+        startTimer();
+        isPaused = false;
+        pauseResumeButton.textContent = 'Pause';
+    } else {
+        isPaused = true;
+        clearInterval(timer);
+        pauseResumeButton.textContent = 'Resume';
+    }
+}
+
+function restartTimer() {
+    clearInterval(timer);
+    minutes = enteredTime || pomodoroDuration;
+    seconds = 0;
+    isPaused = false;
+
+    document.getElementById('timer').textContent = formatTime(minutes, seconds);
+    document.getElementById('start-button').textContent = 'Pause';
+    startTimer();
+}
+
+function chooseTime() {
+    const newTime = prompt('Enter new time in minutes:');
+    if (!isNaN(newTime) && newTime > 0) {
+        enteredTime = parseInt(newTime);
+        minutes = enteredTime;
+        seconds = 0;
+        isPaused = false;
+        currentMode = "Custom";
+
+        document.getElementById('timer').textContent = formatTime(minutes, seconds);
+        clearInterval(timer);
+        document.getElementById('start-button').textContent = 'Pause';
+        startTimer();
+    } else {
+        alert('Invalid input. Please enter a valid number greater than 0.');
+    }
+}
+
+function toggleAutoSwitch() {
+    autoSwitch = document.getElementById('auto-switch').checked;
 }
