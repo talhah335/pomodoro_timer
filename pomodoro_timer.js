@@ -64,6 +64,11 @@ function updateTimer() {
 
     if (minutes === 0 && seconds === 0) {
         clearInterval(timer);
+
+        if (currentMode === "Pomodoro" || currentMode === "Custom") {
+            document.querySelector('.task-input').value = '';
+        }
+        
         if (autoSwitch) {
             if (currentMode === "Pomodoro") {
                 pomodoroCount++;
