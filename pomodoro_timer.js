@@ -65,7 +65,9 @@ function updateTimer() {
     if (minutes === 0 && seconds === 0) {
         clearInterval(timer);
     
-        document.getElementById('alarm-sound').play();
+        var audio = document.getElementById('alarm-sound');
+        audio.volume = 1.0;
+        audio.play();
     
         if (currentMode === "Pomodoro" || currentMode === "Custom") {
             document.querySelector('.task-input').value = '';
