@@ -64,11 +64,13 @@ function updateTimer() {
 
     if (minutes === 0 && seconds === 0) {
         clearInterval(timer);
-
+    
+        document.getElementById('alarm-sound').play();
+    
         if (currentMode === "Pomodoro" || currentMode === "Custom") {
             document.querySelector('.task-input').value = '';
         }
-        
+    
         if (autoSwitch) {
             if (currentMode === "Pomodoro") {
                 pomodoroCount++;
@@ -77,12 +79,11 @@ function updateTimer() {
                 } else {
                     setShortBreak();
                 }
-            } else {
+            } else if (currentMode === "ShortBreak" || currentMode === "LongBreak") {
                 setPomodoro();
             }
-        } else {
-            alert('Time is up! Take a break.');
-        }
+        } 
+
     } else if (!isPaused) {
         if (seconds > 0) {
             seconds--;
@@ -123,7 +124,9 @@ function restartTimer() {
 }
 
 function chooseTime() {
-    const newTime = prompt('Enter new time in minutes:');
+    const newTime = prompt('Enter an amount of time in minutes:');
+    if (newTime === null) return;
+
     if (!isNaN(newTime) && newTime > 0) {
         enteredTime = parseInt(newTime);
         minutes = enteredTime;
@@ -136,7 +139,7 @@ function chooseTime() {
         document.getElementById('start-button').textContent = 'Pause';
         startTimer();
     } else {
-        alert('Invalid input. Please enter a valid number greater than 0.');
+        alert('Please enter a valid number greater than 0.');
     }
 }
 
