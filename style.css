@@ -138,3 +138,33 @@ h1 {
     justify-content: center;
     gap: 10px;
   }
+
+
+/* found online */
+/* CSS for the progress ring */
+  .timer-circle-container {
+    position: relative;
+    width: 250px;
+    height: 250px;
+    margin: 20px auto;
+  }
+  
+  .timer-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 40px;
+    color: #660033ce;
+    font-family: 'serif', Georgia, serif;
+  }
+  
+  .progress-ring__background {
+    opacity: 0.2;
+  }
+  
+  .progress-ring__circle {
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+    transition: stroke-dashoffset 1s linear;
+  }
