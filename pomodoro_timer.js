@@ -1,4 +1,3 @@
-// script.js
 let timer;
 let minutes = 25;
 let seconds = 0;
@@ -12,56 +11,33 @@ function startTimer() {
     timer = setInterval(updateTimer, 1000);
 }
 
-function setPomodoro() {
-    minutes = pomodoroDuration;
+function resetAndStart(duration) {
+    enteredTime = duration;
+    minutes = duration;
     seconds = 0;
     isPaused = false;
-    const timerElement =
-        document.getElementById('timer');
-    timerElement.textContent =
-        formatTime(minutes, seconds);
     clearInterval(timer);
-    const pauseResumeButton =
-        document.querySelector('.control-buttons button');
-    pauseResumeButton.textContent = 'Pause';
+
+    document.getElementById('timer').textContent = formatTime(minutes, seconds);
+    document.getElementById('start-button').textContent = 'Pause';
     startTimer();
+}
+
+function setPomodoro() {
+    resetAndStart(pomodoroDuration);
 }
 
 function setShortBreak() {
-    minutes = shortBreak;
-    seconds = 0;
-    isPaused = false;
-    const timerElement =
-        document.getElementById('timer');
-    timerElement.textContent =
-        formatTime(minutes, seconds);
-    clearInterval(timer);
-    const pauseResumeButton =
-        document.querySelector('.control-buttons button');
-    pauseResumeButton.textContent = 'Pause';
-    startTimer();
+    resetAndStart(shortBreak);
 }
 
 function setLongBreak() {
-    minutes = longBreak;
-    seconds = 0;
-    isPaused = false;
-    const timerElement =
-        document.getElementById('timer');
-    timerElement.textContent =
-        formatTime(minutes, seconds);
-    clearInterval(timer);
-    const pauseResumeButton =
-        document.querySelector('.control-buttons button');
-    pauseResumeButton.textContent = 'Pause';
-    startTimer();
+    resetAndStart(longBreak);
 }
 
 function updateTimer() {
-    const timerElement =
-        document.getElementById('timer');
-    timerElement.textContent = 
-        formatTime(minutes, seconds);
+    const timerElement = document.getElementById('timer');
+    timerElement.textContent = formatTime(minutes, seconds);
 
     if (minutes === 0 && seconds === 0) {
         clearInterval(timer);
@@ -81,31 +57,27 @@ function formatTime(minutes, seconds) {
 }
 
 function togglePauseResume() {
-    const pauseResumeButton =
-        document.querySelector('.control-buttons button');
-    isPaused = !isPaused;
+    const pauseResumeButton = document.getElementById('start-button');
 
-    if (isPaused) {
+    if (!timer || pauseResumeButton.textContent === 'Start' || pauseResumeButton.textContent === 'Resume') {
+        startTimer();
+        isPaused = false;
+        pauseResumeButton.textContent = 'Pause';
+    } else {
+        isPaused = true;
         clearInterval(timer);
         pauseResumeButton.textContent = 'Resume';
-    } else {
-        startTimer();
-        pauseResumeButton.textContent = 'Pause';
     }
 }
 
 function restartTimer() {
     clearInterval(timer);
-    minutes = enteredTime || 15;
+    minutes = enteredTime || pomodoroDuration;
     seconds = 0;
     isPaused = false;
-    const timerElement =
-        document.getElementById('timer');
-    timerElement.textContent =
-        formatTime(minutes, seconds);
-    const pauseResumeButton =
-        document.querySelector('.control-buttons button');
-    pauseResumeButton.textContent = 'Pause';
+
+    document.getElementById('timer').textContent = formatTime(minutes, seconds);
+    document.getElementById('start-button').textContent = 'Pause';
     startTimer();
 }
 
@@ -116,18 +88,12 @@ function chooseTime() {
         minutes = enteredTime;
         seconds = 0;
         isPaused = false;
-        const timerElement =
-            document.getElementById('timer');
-        timerElement.textContent =
-            formatTime(minutes, seconds);
+
+        document.getElementById('timer').textContent = formatTime(minutes, seconds);
         clearInterval(timer);
-        const pauseResumeButton =
-            document.querySelector('.control-buttons button');
-        pauseResumeButton.textContent = 'Pause';
+        document.getElementById('start-button').textContent = 'Pause';
         startTimer();
     } else {
-        alert('Invalid input. Please enter'+
-              ' a valid number greater than 0.');
+        alert('Invalid input. Please enter a valid number greater than 0.');
     }
 }
-startTimer();

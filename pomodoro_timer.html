@@ -16,25 +16,25 @@
     </h1>
     <div class="main">
         <div class="control-buttons">
-            <button onclick="setPomodoro()">
+            <button id="pomodoro-button" onclick="setPomodoro()">
                   Pomodoro
             </button>
-            <button onclick="setShortBreak()">
+            <button id="short-break-button" onclick="setShortBreak()">
                   Short Break
             </button>
-            <button onclick="setLongBreak()">
+            <button id="long-break-button" onclick="setLongBreak()">
                   Long Break
             </button>
         </div>
         <div class="timer-circle" id="timer">BEGIN</div>
         <div class="control-buttons">
-            <button onclick="togglePauseResume()">
-                  Pause
+            <button id="start-button" onclick="togglePauseResume()">
+                  Start
             </button>
-            <button onclick="restartTimer()">
+            <button id="restart-button" onclick="restartTimer()">
                   Restart
             </button>
-            <button onclick="chooseTime()">
+            <button id="choose-button" onclick="chooseTime()">
                   Choose Time
             </button>
         </div>
